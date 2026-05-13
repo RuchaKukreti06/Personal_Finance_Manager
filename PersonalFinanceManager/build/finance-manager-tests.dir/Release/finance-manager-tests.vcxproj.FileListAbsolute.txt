@@ -1,0 +1,2 @@
+C:\LearnAndCode\PersonalFinanceManagerCpp\build\Release\sqlite3.dll
+C:\LearnAndCode\PersonalFinanceManagerCpp\build\finance-manager-tests.dir\Release\finance-.ED912314.Up2Date

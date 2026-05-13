@@ -1,0 +1,22 @@
+erDiagram
+    EXPENSES {
+      INTEGER id PK
+      TEXT date
+      TEXT category
+      REAL amount
+      TEXT description
+    }
+    INCOME {
+      INTEGER id PK
+      TEXT date
+      TEXT source
+      REAL amount
+      TEXT description
+    }
+    BUDGET {
+      INTEGER id PK
+      TEXT category
+      REAL amount
+      TEXT period
+    }
+    BUDGET ||--o{ EXPENSES : "tracks spending"

@@ -1,0 +1,35 @@
+flowchart TD
+    Start([App Launch]) --> Auth["Authenticate / Login"]
+    Auth --> Menu["Show Main Menu"]
+
+    Menu --> Expense["Add Expense"]
+    Menu --> Income["Add Income"]
+    Menu --> Budget["Set Budget / Allocate Budget"]
+    Menu --> Filter["Filter Expenses"]
+    Menu --> Dashboard["View Dashboard"]
+
+    Expense --> ExpenseInput["Enter Date / Category / Amount / Description"]
+    ExpenseInput --> ValidateExpense["Validate Date, Category, Amount"]
+    ValidateExpense --> SaveExpense["Save Expense Record"]
+    SaveExpense --> Menu
+
+    Income --> IncomeInput["Enter Date / Source / Amount / Description"]
+    IncomeInput --> ValidateIncome["Validate Date, Source, Amount"]
+    ValidateIncome --> SaveIncome["Save Income Record"]
+    SaveIncome --> Menu
+
+    Budget --> BudgetInput["Enter Category / Amount / Period"]
+    BudgetInput --> ValidateBudget["Validate Budget Fields"]
+    ValidateBudget --> SaveBudget["Save or Update Budget"]
+    SaveBudget --> Menu
+
+    Filter --> CategoryFilter["Filter by Category"]
+    Filter --> DateRangeFilter["Filter by Date or Range"]
+    CategoryFilter --> ShowFiltered["Display Filtered Expenses"]
+    DateRangeFilter --> ShowFiltered
+    ShowFiltered --> Menu
+
+    Dashboard --> ComputeSummary["Calculate Income, Expenses, Balance"]
+    ComputeSummary --> CompareBudgets["Compare Budgets With Spending"]
+    CompareBudgets --> ShowDashboard["Show Dashboard Sections"]
+    ShowDashboard --> Menu

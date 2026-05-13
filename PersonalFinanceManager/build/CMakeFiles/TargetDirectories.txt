@@ -1,0 +1,4 @@
+C:/LearnAndCode/PersonalFinanceManagerCpp/build/CMakeFiles/finance-manager.dir
+C:/LearnAndCode/PersonalFinanceManagerCpp/build/CMakeFiles/finance-manager-tests.dir
+C:/LearnAndCode/PersonalFinanceManagerCpp/build/CMakeFiles/ALL_BUILD.dir
+C:/LearnAndCode/PersonalFinanceManagerCpp/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,0 +1,53 @@
+classDiagram
+    class Database {
+      +Database(string path)
+      +executeSchema()
+      +connection() : sqlite3*
+    }
+    class ExpenseRepository {
+      +add(expense : Expense) : int
+      +list() : List<Expense>
+      +filter(category : string, startDate : string, endDate : string) : List<Expense>
+      +remove(expenseId : int) : bool
+    }
+    class IncomeRepository {
+      +add(income : Income) : int
+      +list() : List<Income>
+    }
+    class BudgetRepository {
+      +addOrReplace(budget : Budget) : int
+      +list() : List<Budget>
+      +findByCategory(category : string) : Budget?
+    }
+    class FinanceService {
+      +addExpense(date : string, category : string, amount : double, description : string) : int
+      +addIncome(date : string, source : string, amount : double, description : string) : int
+      +addBudget(category : string, amount : double, period : string) : int
+      +deleteExpense(expenseId : int) : bool
+      +listExpenses() : List<Expense>
+      +filterExpenses(category : string, startDate : string, endDate : string) : List<Expense>
+      +listIncome() : List<Income>
+      +listBudgets() : List<Budget>
+      +getSummary() : Summary
+      +validateDate(date : string)
+      +validateAmount(amount : double)
+      +validateText(value : string, fieldName : string)
+    }
+    class FinanceUI {
+      +run()
+      +addExpenseFlow()
+      +addIncomeFlow()
+      +addBudgetFlow()
+      +filterExpensesFlow()
+      +deleteExpenseFlow()
+      +showSummary(summary : Summary)
+      +showDashboard(summary : Summary)
+    }
+
+    Database <|-- ExpenseRepository
+    Database <|-- IncomeRepository
+    Database <|-- BudgetRepository
+    ExpenseRepository --> FinanceService
+    IncomeRepository --> FinanceService
+    BudgetRepository --> FinanceService
+    FinanceService --> FinanceUI

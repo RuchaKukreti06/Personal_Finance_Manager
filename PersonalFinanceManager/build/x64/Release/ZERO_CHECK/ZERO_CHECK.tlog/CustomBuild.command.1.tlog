@@ -1,0 +1,10 @@
+^C:\LEARNANDCODE\PERSONALFINANCEMANAGERCPP\BUILD\CMAKEFILES\87231572913A2826ED5658C98311E362\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/LearnAndCode/PersonalFinanceManagerCpp -BC:/LearnAndCode/PersonalFinanceManagerCpp/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/LearnAndCode/PersonalFinanceManagerCpp/build/PersonalFinanceManagerCpp.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

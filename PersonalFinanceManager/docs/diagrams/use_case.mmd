@@ -1,0 +1,24 @@
+%%{init: {"theme": "base"}}%%
+flowchart TD
+    User[User]
+    Authenticate((Authenticate / Login))
+    AddExpense((Add Expense))
+    ViewExpenses((View Expenses))
+    FilterExpenses((Filter Expenses by Category, Date, Range))
+    DeleteExpense((Delete Expense))
+    AddIncome((Add Income))
+    ViewIncome((View Income))
+    CreateBudget((Create Budget / Allocate Budget))
+    ViewBudgets((View Budgets))
+    Dashboard((Dashboard Summary))
+
+    User --> Authenticate
+    Authenticate --> AddExpense
+    Authenticate --> ViewExpenses
+    Authenticate --> FilterExpenses
+    Authenticate --> DeleteExpense
+    Authenticate --> AddIncome
+    Authenticate --> ViewIncome
+    Authenticate --> CreateBudget
+    Authenticate --> ViewBudgets
+    Authenticate --> Dashboard

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\LearnAndCode\PersonalFinanceManagerCpp\tests\TestFinanceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\LearnAndCode\PersonalFinanceManagerCpp\src\Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\LearnAndCode\PersonalFinanceManagerCpp\src\Repository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\LearnAndCode\PersonalFinanceManagerCpp\src\Service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\LearnAndCode\PersonalFinanceManagerCpp\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{51868245-7C75-374F-84FC-D3B1054D7898}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

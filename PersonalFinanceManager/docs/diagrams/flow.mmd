@@ -1,0 +1,22 @@
+flowchart TD
+    Start([App Start]) --> Auth["Authenticate / Login"]
+    Auth --> Menu["Show Main Menu"]
+    Menu -->|1| AddExpense["Add Expense"]
+    Menu -->|2| ViewExpenses["View Expenses"]
+    Menu -->|3| FilterExpenses["Filter Expenses"]
+    Menu -->|4| DeleteExpense["Delete Expense"]
+    Menu -->|5| AddIncome["Add Income"]
+    Menu -->|6| ViewIncome["View Income"]
+    Menu -->|7| SetBudget["Set Budget"]
+    Menu -->|8| ViewBudgets["View Budgets"]
+    Menu -->|9| Dashboard["View Dashboard"]
+    Menu -->|0| Exit([Exit])
+    AddExpense --> Menu
+    ViewExpenses --> Menu
+    FilterExpenses --> Menu
+    DeleteExpense --> Menu
+    AddIncome --> Menu
+    ViewIncome --> Menu
+    SetBudget --> Menu
+    ViewBudgets --> Menu
+    Dashboard --> Menu
