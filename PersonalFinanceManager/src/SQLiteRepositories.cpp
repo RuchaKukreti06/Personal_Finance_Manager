@@ -23,18 +23,16 @@ int executeInsert(sqlite3_stmt* statement, Database& database)
     return static_cast<int>(sqlite3_last_insert_rowid(database.connection()));
 }
 
-} // namespace
+}  // namespace
 
-// ==================== SQLiteExpenseRepository ====================
-
-SQLiteExpenseRepository::SQLiteExpenseRepository(Database& database)
-    : database_(database)
+SQLiteExpenseRepository::SQLiteExpenseRepository(Database& database) : database_(database)
 {
 }
 
 int SQLiteExpenseRepository::add(const Expense& expense) const
 {
-    const char* sql = "INSERT INTO expenses (date, category, amount, description) VALUES (?, ?, ?, ?);";
+    const char* sql =
+        "INSERT INTO expenses (date, category, amount, description) VALUES (?, ?, ?, ?);";
     sqlite3_stmt* statement = nullptr;
 
     int result = sqlite3_prepare_v2(database_.connection(), sql, -1, &statement, nullptr);
@@ -63,7 +61,8 @@ int SQLiteExpenseRepository::add(const Expense& expense) const
 
 std::vector<Expense> SQLiteExpenseRepository::list() const
 {
-    const char* sql = "SELECT id, date, category, amount, description FROM expenses ORDER BY date DESC;";
+    const char* sql =
+        "SELECT id, date, category, amount, description FROM expenses ORDER BY date DESC;";
     sqlite3_stmt* statement = nullptr;
 
     int result = sqlite3_prepare_v2(database_.connection(), sql, -1, &statement, nullptr);
@@ -95,8 +94,8 @@ std::vector<Expense> SQLiteExpenseRepository::list() const
 }
 
 std::vector<Expense> SQLiteExpenseRepository::filter(const std::string& category,
-                                                    const std::string& startDate,
-                                                    const std::string& endDate) const
+                                                     const std::string& startDate,
+                                                     const std::string& endDate) const
 {
     std::string sql = "SELECT id, date, category, amount, description FROM expenses";
     bool hasCategory = !category.empty();
@@ -116,16 +115,14 @@ std::vector<Expense> SQLiteExpenseRepository::filter(const std::string& category
 
         if (hasStartDate)
         {
-            if (!firstClause)
-                sql += " AND ";
+            if (!firstClause) sql += " AND ";
             sql += "date >= ?";
             firstClause = false;
         }
 
         if (hasEndDate)
         {
-            if (!firstClause)
-                sql += " AND ";
+            if (!firstClause) sql += " AND ";
             sql += "date <= ?";
         }
     }
@@ -194,10 +191,7 @@ bool SQLiteExpenseRepository::remove(int expenseId) const
     return rowCount > 0;
 }
 
-// ==================== SQLiteIncomeRepository ====================
-
-SQLiteIncomeRepository::SQLiteIncomeRepository(Database& database)
-    : database_(database)
+SQLiteIncomeRepository::SQLiteIncomeRepository(Database& database) : database_(database)
 {
 }
 
@@ -232,7 +226,8 @@ int SQLiteIncomeRepository::add(const Income& income) const
 
 std::vector<Income> SQLiteIncomeRepository::list() const
 {
-    const char* sql = "SELECT id, date, source, amount, description FROM income ORDER BY date DESC;";
+    const char* sql =
+        "SELECT id, date, source, amount, description FROM income ORDER BY date DESC;";
     sqlite3_stmt* statement = nullptr;
 
     int result = sqlite3_prepare_v2(database_.connection(), sql, -1, &statement, nullptr);
@@ -263,17 +258,15 @@ std::vector<Income> SQLiteIncomeRepository::list() const
     return incomes;
 }
 
-// ==================== SQLiteBudgetRepository ====================
-
-SQLiteBudgetRepository::SQLiteBudgetRepository(Database& database)
-    : database_(database)
+SQLiteBudgetRepository::SQLiteBudgetRepository(Database& database) : database_(database)
 {
 }
 
 int SQLiteBudgetRepository::addOrReplace(const Budget& budget) const
 {
-    const char* sql = "INSERT INTO budgets (category, amount, period) VALUES (?, ?, ?) "
-                      "ON CONFLICT(category) DO UPDATE SET amount = excluded.amount, period = excluded.period;";
+    const char* sql =
+        "INSERT INTO budgets (category, amount, period) VALUES (?, ?, ?) "
+        "ON CONFLICT(category) DO UPDATE SET amount = excluded.amount, period = excluded.period;";
     sqlite3_stmt* statement = nullptr;
 
     int result = sqlite3_prepare_v2(database_.connection(), sql, -1, &statement, nullptr);
@@ -346,10 +339,7 @@ std::optional<Budget> SQLiteBudgetRepository::findByCategory(const std::string& 
     return std::nullopt;
 }
 
-// ==================== SQLiteUserRepository ====================
-
-SQLiteUserRepository::SQLiteUserRepository(Database& database)
-    : database_(database)
+SQLiteUserRepository::SQLiteUserRepository(Database& database) : database_(database)
 {
 }
 
@@ -400,4 +390,4 @@ std::optional<User> SQLiteUserRepository::findByUsername(const std::string& user
     return std::nullopt;
 }
 
-} // namespace finance
+}  // namespace finance

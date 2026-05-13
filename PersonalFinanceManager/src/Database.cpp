@@ -1,12 +1,12 @@
 #include "../inc/Database.h"
 
-#include "../constant/Schema.h"
 #include <stdexcept>
+
+#include "../constant/Schema.h"
 
 namespace finance
 {
-Database::Database(const std::string& path)
-    : path_(path)
+Database::Database(const std::string& path) : path_(path)
 {
     int result = sqlite3_open(path_.c_str(), &db_);
     if (result != SQLITE_OK)
@@ -53,5 +53,4 @@ sqlite3* Database::connection() const
     return db_;
 }
 
-} // namespace finance
-
+}  // namespace finance

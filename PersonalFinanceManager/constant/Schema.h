@@ -38,6 +38,6 @@ constexpr int MIN_PASSWORD_LENGTH = 6;
 constexpr int MAX_DESCRIPTION_LENGTH = 500;
 constexpr double MIN_AMOUNT = 0.01;
 
-} // namespace finance
+}  // namespace finance
 
-#endif // CONSTANT_SCHEMA_H
+#endif

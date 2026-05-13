@@ -8,7 +8,6 @@
 
 namespace finance
 {
-// Domain model for expense records
 struct Expense
 {
     int id = -1;
@@ -18,7 +17,6 @@ struct Expense
     std::optional<std::string> description;
 };
 
-// Domain model for income records
 struct Income
 {
     int id = -1;
@@ -28,7 +26,6 @@ struct Income
     std::optional<std::string> description;
 };
 
-// Domain model for budget constraints
 struct Budget
 {
     int id = -1;
@@ -37,7 +34,6 @@ struct Budget
     std::string period;
 };
 
-// Domain model for financial summary
 struct Summary
 {
     double totalIncome = 0.0;
@@ -47,7 +43,6 @@ struct Summary
     std::vector<Budget> budgets;
 };
 
-// Domain model for user accounts
 struct User
 {
     int id = -1;
@@ -55,6 +50,6 @@ struct User
     std::string passwordHash;
 };
 
-} // namespace finance
+}  // namespace finance
 
-#endif // TYPES_ENTITIES_H
+#endif

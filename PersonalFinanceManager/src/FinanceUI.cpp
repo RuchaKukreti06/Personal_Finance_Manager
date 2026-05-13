@@ -4,8 +4,7 @@
 
 namespace finance
 {
-FinanceUI::FinanceUI(FinanceService& service)
-    : service_(service)
+FinanceUI::FinanceUI(FinanceService& service) : service_(service)
 {
 }
 
@@ -58,8 +57,8 @@ void FinanceUI::showExpenses(const std::vector<Expense>& expenses) const
 
     for (const auto& expense : expenses)
     {
-        std::cout << expense.id << " | " << expense.date << " | "
-                  << expense.category << " | " << expense.amount << " | ";
+        std::cout << expense.id << " | " << expense.date << " | " << expense.category << " | "
+                  << expense.amount << " | ";
         std::cout << (expense.description.has_value() ? *expense.description : "-") << "\n";
     }
 }
@@ -78,8 +77,8 @@ void FinanceUI::showIncome(const std::vector<Income>& incomes) const
 
     for (const auto& income : incomes)
     {
-        std::cout << income.id << " | " << income.date << " | "
-                  << income.source << " | " << income.amount << " | ";
+        std::cout << income.id << " | " << income.date << " | " << income.source << " | "
+                  << income.amount << " | ";
         std::cout << (income.description.has_value() ? *income.description : "-") << "\n";
     }
 }
@@ -98,8 +97,7 @@ void FinanceUI::showBudgets(const std::vector<Budget>& budgets) const
 
     for (const auto& budget : budgets)
     {
-        std::cout << budget.category << " | " << budget.amount << " | "
-                  << budget.period << "\n";
+        std::cout << budget.category << " | " << budget.amount << " | " << budget.period << "\n";
     }
 }
 
@@ -137,8 +135,8 @@ void FinanceUI::showSummary(const Summary& summary) const
             }
 
             double remaining = budget.amount - spent;
-            std::cout << "  " << budget.category << ": budget " << budget.amount
-                      << " per " << budget.period << ", spent " << spent << ", ";
+            std::cout << "  " << budget.category << ": budget " << budget.amount << " per "
+                      << budget.period << ", spent " << spent << ", ";
 
             if (remaining < 0)
             {
@@ -208,8 +206,10 @@ void FinanceUI::addBudgetFlow() const
 void FinanceUI::filterExpensesFlow() const
 {
     std::string category = promptOptional("Enter category to filter by (leave blank for none): ");
-    std::string startDate = promptOptional("Enter start date to filter by (YYYY-MM-DD, leave blank for none): ");
-    std::string endDate = promptOptional("Enter end date to filter by (YYYY-MM-DD, leave blank for none): ");
+    std::string startDate =
+        promptOptional("Enter start date to filter by (YYYY-MM-DD, leave blank for none): ");
+    std::string endDate =
+        promptOptional("Enter end date to filter by (YYYY-MM-DD, leave blank for none): ");
 
     try
     {
@@ -311,4 +311,4 @@ void FinanceUI::run()
     }
 }
 
-} // namespace finance
+}  // namespace finance

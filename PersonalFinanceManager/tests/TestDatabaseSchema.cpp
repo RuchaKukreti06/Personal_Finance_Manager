@@ -1,11 +1,12 @@
-#include "../inc/Database.h"
-
-#include <functional>
 #include <sqlite3.h>
+
 #include <cassert>
 #include <cstdlib>
+#include <functional>
 #include <iostream>
 #include <string>
+
+#include "../inc/Database.h"
 
 namespace finance
 {
@@ -44,7 +45,7 @@ void runTest(const char* testName, const std::function<void()>& testFunction)
     }
 }
 
-} // namespace finance
+}  // namespace finance
 
 int main()
 {
@@ -55,21 +56,17 @@ int main()
     Database database(":memory:");
     database.initSchema();
 
-    runTest("Schema creates expenses table", [&]() {
-        assert(tableExists(database.connection(), "expenses"));
-    });
+    runTest("Schema creates expenses table",
+            [&]() { assert(tableExists(database.connection(), "expenses")); });
 
-    runTest("Schema creates income table", [&]() {
-        assert(tableExists(database.connection(), "income"));
-    });
+    runTest("Schema creates income table",
+            [&]() { assert(tableExists(database.connection(), "income")); });
 
-    runTest("Schema creates budgets table", [&]() {
-        assert(tableExists(database.connection(), "budgets"));
-    });
+    runTest("Schema creates budgets table",
+            [&]() { assert(tableExists(database.connection(), "budgets")); });
 
-    runTest("Schema creates users table", [&]() {
-        assert(tableExists(database.connection(), "users"));
-    });
+    runTest("Schema creates users table",
+            [&]() { assert(tableExists(database.connection(), "users")); });
 
     std::cout << "\nAll database schema tests PASSED.\n\n";
     return EXIT_SUCCESS;

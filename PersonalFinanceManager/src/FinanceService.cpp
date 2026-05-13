@@ -5,12 +5,9 @@
 
 namespace finance
 {
-FinanceService::FinanceService(IExpenseRepository& expenseRepo,
-                               IIncomeRepository& incomeRepo,
+FinanceService::FinanceService(IExpenseRepository& expenseRepo, IIncomeRepository& incomeRepo,
                                IBudgetRepository& budgetRepo)
-    : expenseRepo_(expenseRepo),
-      incomeRepo_(incomeRepo),
-      budgetRepo_(budgetRepo)
+    : expenseRepo_(expenseRepo), incomeRepo_(incomeRepo), budgetRepo_(budgetRepo)
 {
 }
 
@@ -54,9 +51,7 @@ void FinanceService::validateDate(const std::string& date)
     }
 }
 
-int FinanceService::addExpense(const std::string& date,
-                               const std::string& category,
-                               double amount,
+int FinanceService::addExpense(const std::string& date, const std::string& category, double amount,
                                const std::string& description) const
 {
     validateDate(date);
@@ -76,9 +71,7 @@ int FinanceService::addExpense(const std::string& date,
     return expenseRepo_.add(expense);
 }
 
-int FinanceService::addIncome(const std::string& date,
-                              const std::string& source,
-                              double amount,
+int FinanceService::addIncome(const std::string& date, const std::string& source, double amount,
                               const std::string& description) const
 {
     validateDate(date);
@@ -98,8 +91,7 @@ int FinanceService::addIncome(const std::string& date,
     return incomeRepo_.add(income);
 }
 
-int FinanceService::addBudget(const std::string& category,
-                              double amount,
+int FinanceService::addBudget(const std::string& category, double amount,
                               const std::string& period) const
 {
     validateText(category, "Category");
@@ -130,8 +122,8 @@ std::vector<Expense> FinanceService::listExpenses() const
 }
 
 std::vector<Expense> FinanceService::filterExpenses(const std::string& category,
-                                                   const std::string& startDate,
-                                                   const std::string& endDate) const
+                                                    const std::string& startDate,
+                                                    const std::string& endDate) const
 {
     if (!startDate.empty())
     {
@@ -177,5 +169,3 @@ Summary FinanceService::getSummary() const
     summary.balance = summary.totalIncome - summary.totalExpenses;
     return summary;
 }
-
-} // namespace finance

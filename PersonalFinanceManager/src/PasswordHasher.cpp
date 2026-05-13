@@ -1,6 +1,7 @@
 #include "../inc/PasswordHasher.h"
 
 #include <openssl/sha.h>
+
 #include <iomanip>
 #include <sstream>
 
@@ -22,9 +23,7 @@ std::string PasswordHasher::toHex(const unsigned char* bytes, size_t length)
 std::string PasswordHasher::hashPassword(const std::string& password)
 {
     unsigned char digest[SHA256_DIGEST_LENGTH] = {0};
-    SHA256(reinterpret_cast<const unsigned char*>(password.data()),
-           password.size(),
-           digest);
+    SHA256(reinterpret_cast<const unsigned char*>(password.data()), password.size(), digest);
 
     return toHex(digest, SHA256_DIGEST_LENGTH);
 }
@@ -34,4 +33,4 @@ bool PasswordHasher::verifyPassword(const std::string& password, const std::stri
     return hashPassword(password) == hash;
 }
 
-} // namespace finance
+}  // namespace finance

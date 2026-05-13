@@ -1,7 +1,7 @@
 #include "../inc/Database.h"
-#include "../inc/SQLiteRepositories.h"
 #include "../inc/FinanceService.h"
 #include "../inc/FinanceUI.h"
+#include "../inc/SQLiteRepositories.h"
 
 int main()
 {

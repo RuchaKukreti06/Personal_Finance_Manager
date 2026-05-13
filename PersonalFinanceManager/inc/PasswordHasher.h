@@ -5,21 +5,16 @@
 
 namespace finance
 {
-// Provides password hashing and verification using SHA256
 class PasswordHasher
 {
-public:
-    // Hash a plaintext password using SHA256
+   public:
     static std::string hashPassword(const std::string& password);
-
-    // Verify plaintext password against stored hash
     static bool verifyPassword(const std::string& password, const std::string& hash);
 
-private:
-    // Convert bytes to hexadecimal string representation
+   private:
     static std::string toHex(const unsigned char* bytes, size_t length);
 };
 
-} // namespace finance
+}  // namespace finance
 
-#endif // INC_PASSWORD_HASHER_H
+#endif  // INC_PASSWORD_HASHER_H
