@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "ftxui",
+    "spdlog",
+    "nlohmann-json",
+    "jwt-cpp",
+    "mysql-connector-cpp"
+  ]
+}
