@@ -1,4 +1,6 @@
 {
+  "name": "personal-finance-manager",
+  "version": "1.0.0",
   "dependencies": [
     "ftxui",
     "spdlog",
