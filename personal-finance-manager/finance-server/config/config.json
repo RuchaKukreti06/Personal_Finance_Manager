@@ -1,0 +1,21 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8080
+  },
+  "logging": {
+    "level": "info",
+    "file": "logs/server.log"
+  },
+  "database": {
+    "host": "localhost",
+    "port": 3306,
+    "name": "finance_db",
+    "user": "root",
+    "password": ""
+  },
+  "jwt": {
+    "secret": "change-this-secret-in-production",
+    "expiration_minutes": 60
+  }
+}
