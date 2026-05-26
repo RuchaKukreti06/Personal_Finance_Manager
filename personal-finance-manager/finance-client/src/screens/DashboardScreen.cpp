@@ -1,4 +1,4 @@
-#include "screens/DashboardScreen.h"
+#include "DashboardScreen.h"
 #include "components/Navbar.h"
 #include "components/Table.h"
 

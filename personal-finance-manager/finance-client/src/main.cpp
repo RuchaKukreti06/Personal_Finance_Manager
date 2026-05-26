@@ -1,6 +1,6 @@
-#include "screens/LoginScreen.h"
-#include "screens/RegisterScreen.h"
-#include "screens/DashboardScreen.h"
+#include "LoginScreen.h"
+#include "RegisterScreen.h"
+#include "DashboardScreen.h"
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>

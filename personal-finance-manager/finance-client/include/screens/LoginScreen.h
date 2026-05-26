@@ -1,5 +1,5 @@
-#ifndef FINANCE_CLIENT_SCREENS_LOGINSCREEN_H
-#define FINANCE_CLIENT_SCREENS_LOGINSCREEN_H
+#ifndef LOGINSCREEN_H
+#define LOGINSCREEN_H
 
 #include <ftxui/component/component.hpp>
 #include <functional>

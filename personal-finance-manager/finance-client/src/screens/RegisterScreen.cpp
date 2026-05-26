@@ -1,6 +1,6 @@
-#include "screens/RegisterScreen.h"
-#include "components/InputField.h"
-#include "components/ErrorBox.h"
+#include "RegisterScreen.h"
+#include "InputField.h"
+#include "ErrorBox.h"
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/dom/elements.hpp>

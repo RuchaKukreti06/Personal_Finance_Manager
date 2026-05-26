@@ -1,4 +1,4 @@
-#include "components/Navbar.h"
+#include "Navbar.h"
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/dom/elements.hpp>

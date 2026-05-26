@@ -1,4 +1,4 @@
-#include "components/ErrorBox.h"
+#include "ErrorBox.h"
 
 #include <ftxui/dom/elements.hpp>
 

@@ -1,5 +1,5 @@
-#ifndef FINANCE_CLIENT_SCREENS_REGISTERSCREEN_H
-#define FINANCE_CLIENT_SCREENS_REGISTERSCREEN_H
+#ifndef REGISTERSCREEN_H
+#define REGISTERSCREEN_H
 
 #include <ftxui/component/component.hpp>
 #include <functional>

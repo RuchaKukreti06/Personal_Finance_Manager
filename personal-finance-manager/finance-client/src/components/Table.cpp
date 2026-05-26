@@ -1,4 +1,4 @@
-#include "components/Table.h"
+#include "Table.h"
 
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/dom/table.hpp>
