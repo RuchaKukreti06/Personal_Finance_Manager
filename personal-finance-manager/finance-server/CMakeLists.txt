@@ -9,6 +9,7 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(jwt-cpp CONFIG REQUIRED)
 find_package(unofficial-mysql-connector-cpp CONFIG REQUIRED)
+find_package(httplib CONFIG REQUIRED)
 
 file(GLOB_RECURSE SERVER_SOURCES "src/*.cpp")
 
@@ -24,4 +25,5 @@ target_link_libraries(FinanceServer PRIVATE
     nlohmann_json::nlohmann_json
     jwt-cpp::jwt-cpp
     unofficial::mysql-connector-cpp::connector
+    httplib::httplib
 )

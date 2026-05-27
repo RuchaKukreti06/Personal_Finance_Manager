@@ -6,6 +6,7 @@
     "spdlog",
     "nlohmann-json",
     "jwt-cpp",
-    "mysql-connector-cpp"
+    "mysql-connector-cpp",
+    "cpp-httplib"
   ]
 }
