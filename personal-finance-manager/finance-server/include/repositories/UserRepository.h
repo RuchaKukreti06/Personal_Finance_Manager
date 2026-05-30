@@ -15,6 +15,7 @@ public:
     bool create(const User& user);
     bool existsByUsername(const std::string& username);
     bool existsByEmail(const std::string& email);
+    bool updatePassword(int userId, const std::string& passwordHash);
 };
 
 }

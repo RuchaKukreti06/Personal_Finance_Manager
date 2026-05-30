@@ -1,6 +1,7 @@
 #include "utils/ConfigLoader.h"
 #include "utils/Logger.h"
 #include "database/Database.h"
+#include "auth/JwtManager.h"
 
 #include <httplib.h>
 #include <nlohmann/json.hpp>
@@ -20,6 +21,8 @@ int main(int argc, char* argv[]) {
 
         std::filesystem::create_directories("logs");
         utils::Logger::init(config.logLevel(), config.logFile());
+
+        auth::JwtManager::instance().configure(config.jwtSecret(), config.jwtExpirationMinutes());
 
         auto& db = database::Database::instance();
         db.connect(config.dbHost(), config.dbPort(), config.dbUser(), config.dbPassword(), config.dbName());
