@@ -7,7 +7,7 @@ namespace repositories {
 std::vector<Budget> BudgetRepository::findByUserId(int userId) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, category, monthly_limit, month, year, created_at "
+        "SELECT id, user_id, category, monthly_limit, month, year, CAST(created_at AS CHAR) "
         "FROM finance_db.budgets WHERE user_id = ? ORDER BY year DESC, month DESC")
         .bind(userId)
         .execute();
@@ -30,7 +30,7 @@ std::vector<Budget> BudgetRepository::findByUserId(int userId) {
 std::optional<Budget> BudgetRepository::findById(int id) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, category, monthly_limit, month, year, created_at "
+        "SELECT id, user_id, category, monthly_limit, month, year, CAST(created_at AS CHAR) "
         "FROM finance_db.budgets WHERE id = ?")
         .bind(id)
         .execute();
@@ -53,7 +53,7 @@ std::optional<Budget> BudgetRepository::findByUserCategoryMonth(
     int userId, const std::string& category, int month, int year) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, category, monthly_limit, month, year, created_at "
+        "SELECT id, user_id, category, monthly_limit, month, year, CAST(created_at AS CHAR) "
         "FROM finance_db.budgets WHERE user_id = ? AND category = ? AND month = ? AND year = ?")
         .bind(userId)
         .bind(category)

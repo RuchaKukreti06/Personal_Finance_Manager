@@ -7,7 +7,7 @@ namespace repositories {
 std::vector<Income> IncomeRepository::findByUserId(int userId) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, amount, source, description, date, created_at "
+        "SELECT id, user_id, amount, source, description, CAST(date AS CHAR), CAST(created_at AS CHAR) "
         "FROM finance_db.incomes WHERE user_id = ? ORDER BY date DESC")
         .bind(userId)
         .execute();
@@ -31,7 +31,7 @@ std::vector<Income> IncomeRepository::findByUserIdAndDateRange(
     int userId, const std::string& startDate, const std::string& endDate) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, amount, source, description, date, created_at "
+        "SELECT id, user_id, amount, source, description, CAST(date AS CHAR), CAST(created_at AS CHAR) "
         "FROM finance_db.incomes WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date DESC")
         .bind(userId)
         .bind(startDate)
@@ -56,7 +56,7 @@ std::vector<Income> IncomeRepository::findByUserIdAndDateRange(
 std::optional<Income> IncomeRepository::findById(int id) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, amount, source, description, date, created_at "
+        "SELECT id, user_id, amount, source, description, CAST(date AS CHAR), CAST(created_at AS CHAR) "
         "FROM finance_db.incomes WHERE id = ?")
         .bind(id)
         .execute();

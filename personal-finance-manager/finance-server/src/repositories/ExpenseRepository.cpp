@@ -7,7 +7,7 @@ namespace repositories {
 std::vector<Expense> ExpenseRepository::findByUserId(int userId) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, amount, category, description, date, created_at "
+        "SELECT id, user_id, amount, category, description, CAST(date AS CHAR), CAST(created_at AS CHAR) "
         "FROM finance_db.expenses WHERE user_id = ? ORDER BY date DESC")
         .bind(userId)
         .execute();
@@ -31,7 +31,7 @@ std::vector<Expense> ExpenseRepository::findByUserIdAndDateRange(
     int userId, const std::string& startDate, const std::string& endDate) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, amount, category, description, date, created_at "
+        "SELECT id, user_id, amount, category, description, CAST(date AS CHAR), CAST(created_at AS CHAR) "
         "FROM finance_db.expenses WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date DESC")
         .bind(userId)
         .bind(startDate)
@@ -57,7 +57,7 @@ std::vector<Expense> ExpenseRepository::findByUserIdAndCategory(
     int userId, const std::string& category) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, amount, category, description, date, created_at "
+        "SELECT id, user_id, amount, category, description, CAST(date AS CHAR), CAST(created_at AS CHAR) "
         "FROM finance_db.expenses WHERE user_id = ? AND category = ? ORDER BY date DESC")
         .bind(userId)
         .bind(category)
@@ -81,7 +81,7 @@ std::vector<Expense> ExpenseRepository::findByUserIdAndCategory(
 std::optional<Expense> ExpenseRepository::findById(int id) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, user_id, amount, category, description, date, created_at "
+        "SELECT id, user_id, amount, category, description, CAST(date AS CHAR), CAST(created_at AS CHAR) "
         "FROM finance_db.expenses WHERE id = ?")
         .bind(id)
         .execute();

@@ -7,7 +7,7 @@ namespace repositories {
 std::optional<User> UserRepository::findByUsername(const std::string& username) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, username, email, password_hash, created_at FROM finance_db.users WHERE username = ?")
+        "SELECT id, username, email, password_hash, CAST(created_at AS CHAR) FROM finance_db.users WHERE username = ?")
         .bind(username)
         .execute();
 
@@ -26,7 +26,7 @@ std::optional<User> UserRepository::findByUsername(const std::string& username) 
 std::optional<User> UserRepository::findByEmail(const std::string& email) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, username, email, password_hash, created_at FROM finance_db.users WHERE email = ?")
+        "SELECT id, username, email, password_hash, CAST(created_at AS CHAR) FROM finance_db.users WHERE email = ?")
         .bind(email)
         .execute();
 
@@ -45,7 +45,7 @@ std::optional<User> UserRepository::findByEmail(const std::string& email) {
 std::optional<User> UserRepository::findById(int id) {
     auto& session = database::Database::instance().getSession();
     auto result = session.sql(
-        "SELECT id, username, email, password_hash, created_at FROM finance_db.users WHERE id = ?")
+        "SELECT id, username, email, password_hash, CAST(created_at AS CHAR) FROM finance_db.users WHERE id = ?")
         .bind(id)
         .execute();
 
