@@ -7,3 +7,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(finance-server)
 add_subdirectory(finance-client)
+add_subdirectory(tests)
