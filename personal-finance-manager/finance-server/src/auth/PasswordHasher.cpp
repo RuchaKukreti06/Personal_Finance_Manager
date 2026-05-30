@@ -9,44 +9,46 @@
 namespace auth
 {
 
-static std::string toHex(const unsigned char* data, size_t length)
+std::string PasswordHasher::generateSalt()
 {
-    std::ostringstream stream;
-    for (size_t index = 0; index < length; ++index)
+    unsigned char bytes[16];
+    RAND_bytes(bytes, sizeof(bytes));
+    std::ostringstream oss;
+    for (auto b : bytes)
     {
-        stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[index]);
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
     }
-    return stream.str();
+    return oss.str();
 }
 
-static std::string sha256(const std::string& input)
+std::string PasswordHasher::sha256(const std::string& input)
 {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), input.size(), hash);
-    return toHex(hash, SHA256_DIGEST_LENGTH);
+    std::ostringstream oss;
+    for (auto b : hash)
+    {
+        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
+    }
+    return oss.str();
 }
 
 std::string PasswordHasher::hash(const std::string& password)
 {
-    unsigned char saltBytes[16];
-    RAND_bytes(saltBytes, sizeof(saltBytes));
-    std::string salt = toHex(saltBytes, sizeof(saltBytes));
+    std::string salt = generateSalt();
     std::string hashed = sha256(salt + password);
     return salt + ":" + hashed;
 }
 
 bool PasswordHasher::verify(const std::string& password, const std::string& storedHash)
 {
-    if (password.empty() || storedHash.empty()) return false;
+    auto pos = storedHash.find(':');
+    if (pos == std::string::npos) return false;
 
-    size_t separatorPos = storedHash.find(':');
-    if (separatorPos == std::string::npos) return false;
-
-    std::string salt = storedHash.substr(0, separatorPos);
-    std::string expectedHash = storedHash.substr(separatorPos + 1);
-    std::string computedHash = sha256(salt + password);
-
-    return computedHash == expectedHash;
+    std::string salt = storedHash.substr(0, pos);
+    std::string expected = storedHash.substr(pos + 1);
+    std::string computed = sha256(salt + password);
+    return computed == expected;
 }
 
-}  // namespace auth
+}
