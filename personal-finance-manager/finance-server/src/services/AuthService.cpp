@@ -72,10 +72,9 @@ nlohmann::json AuthService::changePassword(int userId, const std::string& oldPas
         return {{"success", false}, {"error", "New password must be at least 8 characters"}};
     }
 
-    User updated = *user;
-    updated.passwordHash = auth::PasswordHasher::hash(newPassword);
+    std::string newHash = auth::PasswordHasher::hash(newPassword);
 
-    if (!repo.updatePassword(userId, updated.passwordHash)) {
+    if (!repo.updatePassword(userId, newHash)) {
         return {{"success", false}, {"error", "Failed to update password"}};
     }
 

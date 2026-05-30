@@ -40,6 +40,11 @@ namespace date {
     constexpr char DATE_PAD_CHAR = '0';
 }
 
+namespace ratelimit {
+    constexpr int MAX_REQUESTS_PER_WINDOW = 100;
+    constexpr int WINDOW_SECONDS = 60;
+}
+
 }
 
 #endif

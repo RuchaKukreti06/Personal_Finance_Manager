@@ -2,6 +2,12 @@
 #include "utils/Logger.h"
 #include "database/Database.h"
 #include "auth/JwtManager.h"
+#include "middleware/RateLimiter.h"
+#include "controllers/AuthController.h"
+#include "controllers/ExpenseController.h"
+#include "controllers/IncomeController.h"
+#include "controllers/BudgetController.h"
+#include "controllers/SummaryController.h"
 
 #include <httplib.h>
 #include <nlohmann/json.hpp>
@@ -29,17 +35,34 @@ int main(int argc, char* argv[]) {
 
         httplib::Server server;
 
-        server.Get("/health", [&](const httplib::Request&, httplib::Response& res) {
+        server.set_pre_routing_handler([](const httplib::Request& request, httplib::Response& response) -> httplib::Server::HandlerResponse {
+            if (!middleware::RateLimiter::instance().isAllowed(request.remote_addr)) {
+                response.status = 429;
+                response.set_content(
+                    nlohmann::json({{"success", false}, {"error", "Too many requests"}}).dump(),
+                    "application/json");
+                return httplib::Server::HandlerResponse::Handled;
+            }
+            return httplib::Server::HandlerResponse::Unhandled;
+        });
+
+        server.Get("/health", [&](const httplib::Request&, httplib::Response& response) {
             nlohmann::json body;
             body["status"] = "ok";
             body["database"] = db.isConnected() ? "connected" : "disconnected";
-            res.set_content(body.dump(), "application/json");
+            response.set_content(body.dump(), "application/json");
         });
+
+        controllers::AuthController::registerRoutes(server);
+        controllers::ExpenseController::registerRoutes(server);
+        controllers::IncomeController::registerRoutes(server);
+        controllers::BudgetController::registerRoutes(server);
+        controllers::SummaryController::registerRoutes(server);
 
         spdlog::info("Starting server on {}:{}", config.serverHost(), config.serverPort());
         server.listen(config.serverHost(), config.serverPort());
-    } catch (const std::exception& e) {
-        fmt::print(stderr, "Fatal: {}\n", e.what());
+    } catch (const std::exception& exception) {
+        fmt::print(stderr, "Fatal: {}\n", exception.what());
         return 1;
     }
 

@@ -9,26 +9,26 @@
 
 namespace serializer {
 
-inline nlohmann::json toJson(const User& u) {
-    return {{"id", u.id}, {"username", u.username}, {"email", u.email}, {"createdAt", u.createdAt}};
+inline nlohmann::json toJson(const User& user) {
+    return {{"id", user.id}, {"username", user.username}, {"email", user.email}, {"createdAt", user.createdAt}};
 }
 
-inline nlohmann::json toJson(const Expense& e) {
-    return {{"id", e.id}, {"userId", e.userId}, {"amount", e.amount},
-            {"category", e.category}, {"description", e.description},
-            {"date", e.date}, {"createdAt", e.createdAt}};
+inline nlohmann::json toJson(const Expense& expense) {
+    return {{"id", expense.id}, {"userId", expense.userId}, {"amount", expense.amount},
+            {"category", expense.category}, {"description", expense.description},
+            {"date", expense.date}, {"createdAt", expense.createdAt}};
 }
 
-inline nlohmann::json toJson(const Income& i) {
-    return {{"id", i.id}, {"userId", i.userId}, {"amount", i.amount},
-            {"source", i.source}, {"description", i.description},
-            {"date", i.date}, {"createdAt", i.createdAt}};
+inline nlohmann::json toJson(const Income& income) {
+    return {{"id", income.id}, {"userId", income.userId}, {"amount", income.amount},
+            {"source", income.source}, {"description", income.description},
+            {"date", income.date}, {"createdAt", income.createdAt}};
 }
 
-inline nlohmann::json toJson(const Budget& b) {
-    return {{"id", b.id}, {"userId", b.userId}, {"category", b.category},
-            {"monthlyLimit", b.monthlyLimit}, {"month", b.month},
-            {"year", b.year}, {"createdAt", b.createdAt}};
+inline nlohmann::json toJson(const Budget& budget) {
+    return {{"id", budget.id}, {"userId", budget.userId}, {"category", budget.category},
+            {"monthlyLimit", budget.monthlyLimit}, {"month", budget.month},
+            {"year", budget.year}, {"createdAt", budget.createdAt}};
 }
 
 template <typename T>

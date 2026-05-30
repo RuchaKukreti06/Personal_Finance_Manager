@@ -1,54 +1,45 @@
 #include "auth/PasswordHasher.h"
-
-#include <openssl/rand.h>
 #include <openssl/sha.h>
-
-#include <iomanip>
+#include <openssl/rand.h>
 #include <sstream>
+#include <iomanip>
 
-namespace auth
-{
+namespace auth {
 
-std::string PasswordHasher::generateSalt()
-{
-    unsigned char bytes[16];
-    RAND_bytes(bytes, sizeof(bytes));
-    std::ostringstream oss;
-    for (auto b : bytes)
-    {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
+static std::string toHex(const unsigned char* data, size_t length) {
+    std::ostringstream stream;
+    for (size_t index = 0; index < length; ++index) {
+        stream << std::hex << std::setw(2) << std::setfill('0')
+               << static_cast<int>(data[index]);
     }
-    return oss.str();
+    return stream.str();
 }
 
-std::string PasswordHasher::sha256(const std::string& input)
-{
+static std::string sha256(const std::string& input) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), input.size(), hash);
-    std::ostringstream oss;
-    for (auto b : hash)
-    {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(b);
-    }
-    return oss.str();
+    return toHex(hash, SHA256_DIGEST_LENGTH);
 }
 
-std::string PasswordHasher::hash(const std::string& password)
-{
-    std::string salt = generateSalt();
+std::string PasswordHasher::hash(const std::string& password) {
+    unsigned char saltBytes[16];
+    RAND_bytes(saltBytes, sizeof(saltBytes));
+    std::string salt = toHex(saltBytes, sizeof(saltBytes));
     std::string hashed = sha256(salt + password);
     return salt + ":" + hashed;
 }
 
-bool PasswordHasher::verify(const std::string& password, const std::string& storedHash)
-{
-    auto pos = storedHash.find(':');
-    if (pos == std::string::npos) return false;
+bool PasswordHasher::verify(const std::string& password, const std::string& storedHash) {
+    if (password.empty() || storedHash.empty()) return false;
 
-    std::string salt = storedHash.substr(0, pos);
-    std::string expected = storedHash.substr(pos + 1);
-    std::string computed = sha256(salt + password);
-    return computed == expected;
+    size_t separatorPos = storedHash.find(':');
+    if (separatorPos == std::string::npos) return false;
+
+    std::string salt = storedHash.substr(0, separatorPos);
+    std::string expectedHash = storedHash.substr(separatorPos + 1);
+    std::string computedHash = sha256(salt + password);
+
+    return computedHash == expectedHash;
 }
 
 }

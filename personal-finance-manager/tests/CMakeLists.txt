@@ -1,17 +1,8 @@
-cmake_minimum_required(VERSION 3.20)
-
-project(FinanceServerTests)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(jwt-cpp CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(GTest CONFIG REQUIRED)
-
-enable_testing()
 
 add_executable(test_auth
     server/test_auth_service.cpp
