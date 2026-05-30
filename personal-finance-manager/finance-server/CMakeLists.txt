@@ -10,6 +10,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(jwt-cpp CONFIG REQUIRED)
 find_package(unofficial-mysql-connector-cpp CONFIG REQUIRED)
 find_package(httplib CONFIG REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 file(GLOB_RECURSE SERVER_SOURCES "src/*.cpp")
 
@@ -26,4 +27,6 @@ target_link_libraries(FinanceServer PRIVATE
     jwt-cpp::jwt-cpp
     unofficial::mysql-connector-cpp::connector
     httplib::httplib
+    OpenSSL::SSL
+    OpenSSL::Crypto
 )
