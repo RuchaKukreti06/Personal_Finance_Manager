@@ -99,4 +99,18 @@ bool UserRepository::existsByEmail(const std::string& email) {
     return row && row[0].get<int>() > 0;
 }
 
+bool UserRepository::updatePassword(int userId, const std::string& passwordHash) {
+    try {
+        auto& session = database::Database::instance().getSession();
+        session.sql("UPDATE finance_db.users SET password_hash = ? WHERE id = ?")
+            .bind(passwordHash)
+            .bind(userId)
+            .execute();
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("UserRepository::updatePassword failed: {}", e.what());
+        return false;
+    }
+}
+
 }
