@@ -60,4 +60,4 @@ std::optional<TokenPayload> JwtManager::validate(const std::string& token)
     }
 }
 
-}
+}  // namespace auth

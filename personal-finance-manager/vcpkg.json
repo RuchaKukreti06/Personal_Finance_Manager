@@ -8,6 +8,7 @@
     "jwt-cpp",
     "mysql-connector-cpp",
     "cpp-httplib",
-    "openssl"
+    "openssl",
+    "gtest"
   ]
 }
