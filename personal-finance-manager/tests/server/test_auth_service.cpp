@@ -1,82 +1,118 @@
-#include "auth/PasswordHasher.h"
-#include "auth/JwtManager.h"
-#include <iostream>
-#include <cassert>
+#include <gtest/gtest.h>
+
 #include <string>
 
-int passed = 0;
-int failed = 0;
+#include "auth/JwtManager.h"
+#include "auth/PasswordHasher.h"
 
-void check(bool condition, const std::string& name) {
-    if (condition) {
-        std::cout << "  [PASS] " << name << "\n";
-        passed++;
-    } else {
-        std::cout << "  [FAIL] " << name << "\n";
-        failed++;
-    }
-}
-
-void testPasswordHasher() {
-    std::cout << "\n--- PasswordHasher Tests ---\n";
-
+TEST(PasswordHasherTest, HashProducesNonEmptyOutput)
+{
     std::string hash = auth::PasswordHasher::hash("mypassword");
-    check(!hash.empty(), "hash produces non-empty output");
-    check(hash.find(':') != std::string::npos, "hash contains salt separator");
+    EXPECT_FALSE(hash.empty());
+}
 
-    check(auth::PasswordHasher::verify("mypassword", hash), "verify correct password returns true");
-    check(!auth::PasswordHasher::verify("wrongpassword", hash), "verify wrong password returns false");
-    check(!auth::PasswordHasher::verify("", hash), "verify empty password returns false");
+TEST(PasswordHasherTest, HashContainsSaltSeparator)
+{
+    std::string hash = auth::PasswordHasher::hash("mypassword");
+    EXPECT_NE(hash.find(':'), std::string::npos);
+}
 
+TEST(PasswordHasherTest, VerifyCorrectPassword)
+{
+    std::string hash = auth::PasswordHasher::hash("mypassword");
+    EXPECT_TRUE(auth::PasswordHasher::verify("mypassword", hash));
+}
+
+TEST(PasswordHasherTest, VerifyWrongPassword)
+{
+    std::string hash = auth::PasswordHasher::hash("mypassword");
+    EXPECT_FALSE(auth::PasswordHasher::verify("wrongpassword", hash));
+}
+
+TEST(PasswordHasherTest, VerifyEmptyPassword)
+{
+    std::string hash = auth::PasswordHasher::hash("mypassword");
+    EXPECT_FALSE(auth::PasswordHasher::verify("", hash));
+}
+
+TEST(PasswordHasherTest, UniqueSaltsProduceDifferentHashes)
+{
+    std::string hash1 = auth::PasswordHasher::hash("mypassword");
     std::string hash2 = auth::PasswordHasher::hash("mypassword");
-    check(hash != hash2, "two hashes of same password differ (unique salts)");
-
-    check(auth::PasswordHasher::verify("mypassword", hash2), "verify works with second hash too");
-
-    check(!auth::PasswordHasher::verify("mypassword", "invalid_no_colon"), "verify rejects malformed hash");
-    check(!auth::PasswordHasher::verify("mypassword", ""), "verify rejects empty hash");
+    EXPECT_NE(hash1, hash2);
+    EXPECT_TRUE(auth::PasswordHasher::verify("mypassword", hash1));
+    EXPECT_TRUE(auth::PasswordHasher::verify("mypassword", hash2));
 }
 
-void testJwtManager() {
-    std::cout << "\n--- JwtManager Tests ---\n";
+TEST(PasswordHasherTest, RejectsMalformedHash)
+{
+    EXPECT_FALSE(auth::PasswordHasher::verify("mypassword", "invalid_no_colon"));
+    EXPECT_FALSE(auth::PasswordHasher::verify("mypassword", ""));
+}
 
-    auth::JwtManager::instance().configure("test-secret-key-12345", 60);
+class JwtManagerTest : public ::testing::Test
+{
+   protected:
+    void SetUp() override
+    {
+        auth::JwtManager::instance().configure("test-secret-key-12345", 60);
+    }
+};
 
+TEST_F(JwtManagerTest, GenerateProducesNonEmptyToken)
+{
     std::string token = auth::JwtManager::instance().generate(42, "john_doe");
-    check(!token.empty(), "generate produces non-empty token");
-
-    auto payload = auth::JwtManager::instance().validate(token);
-    check(payload.has_value(), "validate returns payload for valid token");
-    check(payload->userId == 42, "payload userId is correct");
-    check(payload->username == "john_doe", "payload username is correct");
-
-    auto bad1 = auth::JwtManager::instance().validate("garbage.token.here");
-    check(!bad1.has_value(), "validate rejects garbage token");
-
-    auto bad2 = auth::JwtManager::instance().validate("");
-    check(!bad2.has_value(), "validate rejects empty token");
-
-    std::string token2 = auth::JwtManager::instance().generate(99, "jane");
-    auto payload2 = auth::JwtManager::instance().validate(token2);
-    check(payload2.has_value() && payload2->userId == 99, "second token has correct userId");
-    check(payload2.has_value() && payload2->username == "jane", "second token has correct username");
-
-    auth::JwtManager::instance().configure("different-secret", 60);
-    auto bad3 = auth::JwtManager::instance().validate(token);
-    check(!bad3.has_value(), "token signed with old secret is rejected after secret change");
-
-    auth::JwtManager::instance().configure("test-secret-key-12345", 0);
-    std::string expiredToken = auth::JwtManager::instance().generate(1, "expired_user");
-    auto bad4 = auth::JwtManager::instance().validate(expiredToken);
-    check(!bad4.has_value(), "token with 0-minute expiration is rejected immediately");
+    EXPECT_FALSE(token.empty());
 }
 
-int main() {
-    std::cout << "=== Auth Unit Tests ===\n";
+TEST_F(JwtManagerTest, ValidateReturnsCorrectPayload)
+{
+    std::string token = auth::JwtManager::instance().generate(42, "john_doe");
+    auto payload = auth::JwtManager::instance().validate(token);
+    ASSERT_TRUE(payload.has_value());
+    EXPECT_EQ(payload->userId, 42);
+    EXPECT_EQ(payload->username, "john_doe");
+}
 
-    testPasswordHasher();
-    testJwtManager();
+TEST_F(JwtManagerTest, RejectsGarbageToken)
+{
+    auto result = auth::JwtManager::instance().validate("garbage.token.here");
+    EXPECT_FALSE(result.has_value());
+}
 
-    std::cout << "\n=== Results: " << passed << " passed, " << failed << " failed ===\n";
-    return failed > 0 ? 1 : 0;
+TEST_F(JwtManagerTest, RejectsEmptyToken)
+{
+    auto result = auth::JwtManager::instance().validate("");
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(JwtManagerTest, MultipleTokensValidateIndependently)
+{
+    std::string token1 = auth::JwtManager::instance().generate(42, "john_doe");
+    std::string token2 = auth::JwtManager::instance().generate(99, "jane");
+
+    auto p1 = auth::JwtManager::instance().validate(token1);
+    auto p2 = auth::JwtManager::instance().validate(token2);
+
+    ASSERT_TRUE(p1.has_value());
+    EXPECT_EQ(p1->userId, 42);
+    ASSERT_TRUE(p2.has_value());
+    EXPECT_EQ(p2->userId, 99);
+    EXPECT_EQ(p2->username, "jane");
+}
+
+TEST_F(JwtManagerTest, RejectsTokenAfterSecretChange)
+{
+    std::string token = auth::JwtManager::instance().generate(42, "john_doe");
+    auth::JwtManager::instance().configure("different-secret", 60);
+    auto result = auth::JwtManager::instance().validate(token);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(JwtManagerTest, RejectsExpiredToken)
+{
+    auth::JwtManager::instance().configure("test-secret-key-12345", 0);
+    std::string token = auth::JwtManager::instance().generate(1, "expired_user");
+    auto result = auth::JwtManager::instance().validate(token);
+    EXPECT_FALSE(result.has_value());
 }

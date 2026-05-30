@@ -3,18 +3,20 @@
 
 #include <string>
 
-namespace auth {
+namespace auth
+{
 
-class PasswordHasher {
-public:
+class PasswordHasher
+{
+   public:
     static std::string hash(const std::string& password);
     static bool verify(const std::string& password, const std::string& hash);
 
-private:
+   private:
     static std::string generateSalt();
     static std::string sha256(const std::string& input);
 };
 
-}
+}  // namespace auth
 
 #endif

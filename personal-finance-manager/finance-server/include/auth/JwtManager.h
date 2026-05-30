@@ -1,30 +1,32 @@
 #ifndef FINANCE_SERVER_AUTH_JWTMANAGER_H
 #define FINANCE_SERVER_AUTH_JWTMANAGER_H
 
-#include <string>
 #include <optional>
+#include <string>
 
-namespace auth {
+namespace auth
+{
 
-struct TokenPayload {
-    int userId = 0;
+struct TokenPayload
+{
+    int userId;
     std::string username;
 };
 
-class JwtManager {
-public:
+class JwtManager
+{
+   public:
     static JwtManager& instance();
-
     void configure(const std::string& secret, int expirationMinutes);
     std::string generate(int userId, const std::string& username);
     std::optional<TokenPayload> validate(const std::string& token);
 
-private:
+   private:
     JwtManager() = default;
     std::string secret_;
     int expirationMinutes_ = 60;
 };
 
-}
+}  // namespace auth
 
 #endif
