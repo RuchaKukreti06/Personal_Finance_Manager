@@ -3,6 +3,8 @@
 #include <chrono>
 #include <spdlog/spdlog.h>
 
+using traits = jwt::traits::nlohmann_json;
+
 namespace auth {
 
 JwtManager& JwtManager::instance() {
@@ -16,11 +18,11 @@ void JwtManager::configure(const std::string& secret, int expirationMinutes) {
 }
 
 std::string JwtManager::generate(int userId, const std::string& username) {
-    auto token = jwt::create()
+    auto token = jwt::create<traits>()
         .set_issuer("finance-server")
         .set_type("JWT")
-        .set_payload_claim("user_id", jwt::claim(std::to_string(userId)))
-        .set_payload_claim("username", jwt::claim(username))
+        .set_payload_claim("user_id", jwt::basic_claim<traits>(std::to_string(userId)))
+        .set_payload_claim("username", jwt::basic_claim<traits>(username))
         .set_issued_at(std::chrono::system_clock::now())
         .set_expires_at(std::chrono::system_clock::now() +
             std::chrono::minutes(expirationMinutes_))
@@ -30,8 +32,8 @@ std::string JwtManager::generate(int userId, const std::string& username) {
 
 std::optional<TokenPayload> JwtManager::validate(const std::string& token) {
     try {
-        auto decoded = jwt::decode(token);
-        auto verifier = jwt::verify()
+        auto decoded = jwt::decode<traits>(token);
+        auto verifier = jwt::verify<traits>()
             .allow_algorithm(jwt::algorithm::hs256{secret_})
             .with_issuer("finance-server");
         verifier.verify(decoded);
