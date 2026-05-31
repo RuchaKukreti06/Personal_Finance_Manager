@@ -1,18 +1,22 @@
-#include "api/ApiClient.h"
-#include "api/AuthSession.h"
-#include "screens/LoginScreen.h"
-#include "screens/RegisterScreen.h"
-#include "screens/DashboardScreen.h"
 #include <iostream>
 #include <string>
 
-int main() {
-    api::ApiClient client("http://localhost:8080");
+#include "api/ApiClient.h"
+#include "api/AuthSession.h"
+#include "screens/DashboardScreen.h"
+#include "screens/LoginScreen.h"
+#include "screens/RegisterScreen.h"
+
+int main()
+{
+    api::ApiClient client("http://127.0.0.1:8080");
 
     std::cout << "=== Personal Finance Manager ===\n";
 
-    while (true) {
-        if (api::AuthSession::instance().isLoggedIn()) {
+    while (true)
+    {
+        if (api::AuthSession::instance().isLoggedIn())
+        {
             screens::showDashboardScreen(client);
             continue;
         }
@@ -25,14 +29,21 @@ int main() {
         std::string choice;
         std::getline(std::cin, choice);
 
-        if (choice == "1") {
+        if (choice == "1")
+        {
             screens::showLoginScreen(client);
-        } else if (choice == "2") {
+        }
+        else if (choice == "2")
+        {
             screens::showRegisterScreen(client);
-        } else if (choice == "3") {
+        }
+        else if (choice == "3")
+        {
             std::cout << "Goodbye!\n";
             return 0;
-        } else {
+        }
+        else
+        {
             std::cout << "Invalid choice.\n";
         }
     }
