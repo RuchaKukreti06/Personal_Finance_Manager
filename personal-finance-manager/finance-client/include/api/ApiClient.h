@@ -8,7 +8,7 @@ namespace api {
 
 class ApiClient {
 public:
-    ApiClient(const std::string& host, int port);
+    ApiClient(const std::string& baseUrl);
 
     nlohmann::json post(const std::string& path, const nlohmann::json& body);
     nlohmann::json get(const std::string& path);
@@ -19,8 +19,7 @@ public:
     void clearToken();
 
 private:
-    std::string host_;
-    int port_;
+    std::string baseUrl_;
     std::string token_;
 };
 

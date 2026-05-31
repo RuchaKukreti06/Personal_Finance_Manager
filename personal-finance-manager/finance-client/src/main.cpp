@@ -7,7 +7,7 @@
 #include <string>
 
 int main() {
-    api::ApiClient client("localhost", 8080);
+    api::ApiClient client("http://localhost:8080");
 
     std::cout << "=== Personal Finance Manager ===\n";
 

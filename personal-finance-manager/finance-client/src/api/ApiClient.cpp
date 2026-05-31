@@ -3,7 +3,7 @@
 
 namespace api {
 
-ApiClient::ApiClient(const std::string& host, int port) : host_(host), port_(port) {}
+ApiClient::ApiClient(const std::string& baseUrl) : baseUrl_(baseUrl) {}
 
 void ApiClient::setToken(const std::string& token) {
     token_ = token;
@@ -14,7 +14,7 @@ void ApiClient::clearToken() {
 }
 
 nlohmann::json ApiClient::post(const std::string& path, const nlohmann::json& body) {
-    httplib::Client client(host_, port_);
+    httplib::Client client(baseUrl_);
     httplib::Headers headers;
     if (!token_.empty()) {
         headers.emplace("Authorization", "Bearer " + token_);
@@ -27,7 +27,7 @@ nlohmann::json ApiClient::post(const std::string& path, const nlohmann::json& bo
 }
 
 nlohmann::json ApiClient::get(const std::string& path) {
-    httplib::Client client(host_, port_);
+    httplib::Client client(baseUrl_);
     httplib::Headers headers;
     if (!token_.empty()) {
         headers.emplace("Authorization", "Bearer " + token_);
@@ -40,7 +40,7 @@ nlohmann::json ApiClient::get(const std::string& path) {
 }
 
 nlohmann::json ApiClient::put(const std::string& path, const nlohmann::json& body) {
-    httplib::Client client(host_, port_);
+    httplib::Client client(baseUrl_);
     httplib::Headers headers;
     if (!token_.empty()) {
         headers.emplace("Authorization", "Bearer " + token_);
@@ -53,7 +53,7 @@ nlohmann::json ApiClient::put(const std::string& path, const nlohmann::json& bod
 }
 
 nlohmann::json ApiClient::del(const std::string& path) {
-    httplib::Client client(host_, port_);
+    httplib::Client client(baseUrl_);
     httplib::Headers headers;
     if (!token_.empty()) {
         headers.emplace("Authorization", "Bearer " + token_);
